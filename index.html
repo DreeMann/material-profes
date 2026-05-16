@@ -250,7 +250,8 @@
     .card:nth-child(5)::before { background: #f4b09a; }
     .card:nth-child(6)::before { background: #a0e0d0; }
 
-    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+    .card:hover { box-shadow: 0 20px 40px rgba(232,138,170,0.18); }
+    .card { transform-style: preserve-3d; will-change: transform; }
 
     .card-icon {
       width: 68px; height: 68px;
@@ -980,6 +981,40 @@
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+
+    // ── Efecto tilt 3D en tarjetas ──
+    document.querySelectorAll('.card').forEach(card => {
+      const brillo = document.createElement('div');
+      brillo.style.cssText = `
+        position:absolute; inset:0; border-radius:18px; pointer-events:none;
+        background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.35) 0%, transparent 65%);
+        opacity:0; transition: opacity 0.3s;
+      `;
+      card.appendChild(brillo);
+
+      card.addEventListener('mousemove', e => {
+        const r   = card.getBoundingClientRect();
+        const x   = e.clientX - r.left;
+        const y   = e.clientY - r.top;
+        const cx  = r.width  / 2;
+        const cy  = r.height / 2;
+        const rx  = ((y - cy) / cy) * -10;
+        const ry  = ((x - cx) / cx) *  10;
+        const gx  = (x / r.width)  * 100;
+        const gy  = (y / r.height) * 100;
+
+        card.style.transform   = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px) scale(1.02)`;
+        card.style.transition  = 'transform 0.1s ease, box-shadow 0.1s ease';
+        brillo.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.45) 0%, transparent 65%)`;
+        brillo.style.opacity   = '1';
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform  = '';
+        card.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
+        brillo.style.opacity  = '0';
+      });
+    });
   </script>
 </body>
 </html>
