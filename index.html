@@ -379,50 +379,91 @@
     .modal-body { padding: 28px 32px 32px; }
 
     .productos-lista {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
     }
 
     .producto-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       background: var(--fondo);
       border: 1px solid var(--borde);
-      border-radius: 14px;
-      padding: 16px 20px;
-      gap: 12px;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .producto-info { flex: 1; }
-    .producto-info strong { display: block; font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; }
-    .producto-info span  { font-size: 0.8rem; color: var(--texto-medio); }
+    .producto-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(232,138,170,0.18);
+    }
+
+    .producto-thumb {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(135deg, var(--verde-bg) 0%, var(--verde-claro) 100%);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--blanco);
+      position: relative;
+    }
+
+    .producto-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+
+    .producto-body strong { font-size: 0.92rem; font-weight: 700; line-height: 1.3; }
+    .producto-body .desc  { font-size: 0.78rem; color: var(--texto-medio); }
 
     .producto-precio {
       font-size: 1.1rem;
       font-weight: 800;
       color: var(--verde);
-      white-space: nowrap;
+      margin-top: 4px;
     }
+
+    .producto-acciones {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-preview {
+      background: transparent;
+      border: 1.5px solid var(--borde);
+      color: var(--texto-medio);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-preview:hover { border-color: var(--verde); color: var(--verde); }
 
     .btn-comprar-item {
       background: var(--verde);
       color: var(--blanco);
       border: none;
       border-radius: 999px;
-      padding: 8px 18px;
-      font-size: 0.8rem;
+      padding: 9px 18px;
+      font-size: 0.83rem;
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
-      white-space: nowrap;
+      text-align: center;
       transition: background 0.2s;
     }
 
     .btn-comprar-item:hover { background: #d4668a; }
 
     .modal-proximamente {
+      grid-column: 1 / -1;
       text-align: center;
       padding: 40px 20px;
       color: var(--texto-medio);
@@ -430,6 +471,117 @@
 
     .modal-proximamente .prox-icon { font-size: 2.5rem; margin-bottom: 12px; }
     .modal-proximamente p { font-size: 0.95rem; }
+
+    /* ─── LIGHTBOX VISTA PREVIA ─── */
+    .preview-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(74,32,53,0.88);
+      backdrop-filter: blur(6px);
+      z-index: 300;
+      padding: 32px 24px;
+      overflow-y: auto;
+    }
+
+    .preview-overlay.activo { display: block; }
+
+    .preview-container {
+      max-width: 640px;
+      margin: 0 auto;
+      color: var(--blanco);
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+
+    .preview-header h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
+    .preview-header p  { font-size: 0.85rem; opacity: 0.75; }
+
+    .preview-cerrar {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      color: var(--blanco);
+      font-size: 1.2rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .preview-cerrar:hover { background: rgba(255,255,255,0.25); }
+
+    .preview-pages {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .preview-page {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 8.5 / 11;
+      background: var(--blanco);
+      border-radius: 12px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .preview-page.bloqueada {
+      filter: blur(10px);
+      transform: scale(1.02);
+    }
+
+    .preview-page-wrap { position: relative; border-radius: 12px; overflow: hidden; }
+
+    .preview-candado {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(74,32,53,0.45);
+      color: var(--blanco);
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .preview-candado .lock { font-size: 3rem; }
+    .preview-candado span  { font-size: 0.95rem; font-weight: 700; text-align: center; max-width: 260px; }
+
+    .preview-cta {
+      text-align: center;
+      padding: 24px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .preview-cta p { margin-bottom: 14px; font-size: 0.92rem; opacity: 0.85; }
+
+    .btn-comprar-grande {
+      display: inline-block;
+      background: var(--verde);
+      color: var(--blanco);
+      padding: 14px 32px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-comprar-grande:hover { background: #d4668a; transform: translateY(-2px); }
 
     /* ─── ACERCA DE MÍ ─── */
     #sobre-mi { background: var(--fondo); }
@@ -891,6 +1043,24 @@
     </div>
   </section>
 
+  <!-- LIGHTBOX VISTA PREVIA -->
+  <div class="preview-overlay" id="previewOverlay" onclick="cerrarPreviewFondo(event)">
+    <div class="preview-container">
+      <div class="preview-header">
+        <div>
+          <h3 id="previewTitulo">Vista previa</h3>
+          <p id="previewSubtitulo">Echa un vistazo a este material antes de comprarlo</p>
+        </div>
+        <button class="preview-cerrar" onclick="cerrarPreview()">✕</button>
+      </div>
+      <div class="preview-pages" id="previewPages"></div>
+      <div class="preview-cta">
+        <p>¿Te gustó lo que viste? Desbloquea el material completo.</p>
+        <a id="previewBtnComprar" href="#" target="_blank" class="btn-comprar-grande">🛒 Comprar en Hotmart</a>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL -->
   <div class="modal-overlay" id="modalOverlay" onclick="cerrarModalFondo(event)">
     <div class="modal" id="modal">
@@ -914,6 +1084,20 @@
   </footer>
 
   <script>
+    /**
+     * Estructura de un producto (cuando Vanessa los agregue):
+     * {
+     *   nombre: "Guía de Matemática 3° básico",
+     *   descripcion: "10 páginas · PDF",
+     *   precio: "1.990",
+     *   thumbnail: "materiales/previews/mate3-thumb.jpg",  // opcional
+     *   previews: [                                         // opcional
+     *     "materiales/previews/mate3-p1.jpg",  // primera visible
+     *     "materiales/previews/mate3-p2.jpg"   // se mostrará borrosa con candado
+     *   ],
+     *   link: "https://hotmart.com/product/..."
+     * }
+     */
     const categorias = {
       guias: {
         icono: '📝',
@@ -953,8 +1137,11 @@
       }
     };
 
+    let categoriaActual = null;
+
     function abrirModal(id) {
       const cat = categorias[id];
+      categoriaActual = id;
       document.getElementById('modalIcono').textContent   = cat.icono;
       document.getElementById('modalTitulo').textContent  = cat.titulo;
       document.getElementById('modalSubtitulo').textContent = cat.subtitulo;
@@ -968,15 +1155,28 @@
             <p><strong>¡Próximamente!</strong><br>Los materiales de esta categoría estarán disponibles muy pronto.</p>
           </div>`;
       } else {
-        lista.innerHTML = cat.productos.map(p => `
-          <div class="producto-item">
-            <div class="producto-info">
-              <strong>${p.nombre}</strong>
-              <span>${p.descripcion}</span>
-            </div>
-            <span class="producto-precio">$${p.precio} CLP</span>
-            <a href="${p.link}" class="btn-comprar-item" target="_blank">Comprar</a>
-          </div>`).join('');
+        lista.innerHTML = cat.productos.map((p, i) => {
+          const thumbStyle = p.thumbnail
+            ? `background-image:url('${p.thumbnail}')`
+            : '';
+          const iconoPlaceholder = p.thumbnail ? '' : cat.icono;
+          const btnPreview = p.previews && p.previews.length
+            ? `<button class="btn-preview" onclick="abrirPreview('${id}', ${i})">👁 Vista previa</button>`
+            : '';
+          return `
+            <div class="producto-item">
+              <div class="producto-thumb" style="${thumbStyle}">${iconoPlaceholder}</div>
+              <div class="producto-body">
+                <strong>${p.nombre}</strong>
+                <span class="desc">${p.descripcion}</span>
+                <span class="producto-precio">$${p.precio} CLP</span>
+                <div class="producto-acciones">
+                  ${btnPreview}
+                  <a href="${p.link}" class="btn-comprar-item" target="_blank" rel="noopener">🛒 Comprar</a>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
       }
 
       document.getElementById('modalOverlay').classList.add('activo');
@@ -992,7 +1192,48 @@
       if (e.target === document.getElementById('modalOverlay')) cerrarModal();
     }
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+    // ── Lightbox de vista previa ──
+    function abrirPreview(catId, prodIdx) {
+      const producto = categorias[catId].productos[prodIdx];
+      document.getElementById('previewTitulo').textContent = producto.nombre;
+      document.getElementById('previewSubtitulo').textContent = producto.descripcion;
+      document.getElementById('previewBtnComprar').href = producto.link;
+
+      const pagesEl = document.getElementById('previewPages');
+      pagesEl.innerHTML = producto.previews.map((src, i) => {
+        const esUltima = i === producto.previews.length - 1 && producto.previews.length > 1;
+        if (esUltima) {
+          return `
+            <div class="preview-page-wrap">
+              <div class="preview-page bloqueada" style="background-image:url('${src}')"></div>
+              <div class="preview-candado">
+                <div class="lock">🔒</div>
+                <span>Compra el material para desbloquear todas las páginas</span>
+              </div>
+            </div>`;
+        }
+        return `<div class="preview-page" style="background-image:url('${src}')"></div>`;
+      }).join('');
+
+      document.getElementById('previewOverlay').classList.add('activo');
+    }
+
+    function cerrarPreview() {
+      document.getElementById('previewOverlay').classList.remove('activo');
+    }
+
+    function cerrarPreviewFondo(e) {
+      if (e.target === document.getElementById('previewOverlay')) cerrarPreview();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (document.getElementById('previewOverlay').classList.contains('activo')) {
+        cerrarPreview();
+      } else {
+        cerrarModal();
+      }
+    });
 
     // ── Efecto tilt 3D general ──
     function aplicarTilt(selector, { grados = 10, escala = 1.02, brillo = true, radio = '18px' } = {}) {
