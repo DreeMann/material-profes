@@ -417,6 +417,7 @@
 
     .producto-body strong { font-size: 0.92rem; font-weight: 700; line-height: 1.3; }
     .producto-body .desc  { font-size: 0.78rem; color: var(--texto-medio); }
+    .producto-body .detalle { font-size: 0.78rem; color: var(--texto-medio); line-height: 1.5; margin-top: 2px; }
 
     .producto-precio {
       font-size: 1.1rem;
@@ -1117,7 +1118,8 @@ tableros: {
         productos: [
           {
             nombre: 'Tablero de Juego · Potencias',
-            descripcion: '1 página · PDF imprimible · Matemática',
+            descripcion: '8° Básico · PDF imprimible · Matemática',
+            detalle: 'Los estudiantes avanzan por el tablero respondiendo ejercicios de potencias. Para 2 a 4 jugadores, ideal para trabajo en grupos y cierre de unidad.',
             precio: '1.990',
             thumbnail: 'materiales/tableros/potencias/tablero-potencias-portada.png',
             previews: [
@@ -1168,6 +1170,7 @@ tableros: {
               <div class="producto-body">
                 <strong>${p.nombre}</strong>
                 <span class="desc">${p.descripcion}</span>
+                ${p.detalle ? `<span class="detalle">${p.detalle}</span>` : ''}
                 <span class="producto-precio">$${p.precio} CLP</span>
                 <div class="producto-acciones">
                   ${btnPreview}
