@@ -251,7 +251,19 @@
     .card:nth-child(6)::before { background: #a0e0d0; }
 
     .card:hover { box-shadow: 0 20px 40px rgba(232,138,170,0.18); }
-    .card { transform-style: preserve-3d; will-change: transform; }
+    .card, .testimonio, .contacto-card, .about-visual, .clases-box, .testimonios-cta {
+      will-change: transform;
+    }
+    .testimonio, .contacto-card, .clases-box, .testimonios-cta {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary, .btn-outline, .btn-ver, .btn-verde, .btn-yt,
+    .email-btn, .red-link, .btn-comprar-item, .nav-cta {
+      position: relative;
+      overflow: hidden;
+      will-change: transform;
+    }
 
     .card-icon {
       width: 68px; height: 68px;
@@ -982,39 +994,55 @@
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
 
-    // ── Efecto tilt 3D en tarjetas ──
-    document.querySelectorAll('.card').forEach(card => {
-      const brillo = document.createElement('div');
-      brillo.style.cssText = `
-        position:absolute; inset:0; border-radius:18px; pointer-events:none;
-        background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.35) 0%, transparent 65%);
-        opacity:0; transition: opacity 0.3s;
-      `;
-      card.appendChild(brillo);
+    // ── Efecto tilt 3D general ──
+    function aplicarTilt(selector, { grados = 10, escala = 1.02, brillo = true, radio = '18px' } = {}) {
+      document.querySelectorAll(selector).forEach(el => {
+        let shine = null;
+        if (brillo) {
+          shine = document.createElement('div');
+          shine.style.cssText = `
+            position:absolute; inset:0; border-radius:${radio}; pointer-events:none;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.38) 0%, transparent 65%);
+            opacity:0; transition:opacity 0.3s;
+          `;
+          el.appendChild(shine);
+        }
 
-      card.addEventListener('mousemove', e => {
-        const r   = card.getBoundingClientRect();
-        const x   = e.clientX - r.left;
-        const y   = e.clientY - r.top;
-        const cx  = r.width  / 2;
-        const cy  = r.height / 2;
-        const rx  = ((y - cy) / cy) * -10;
-        const ry  = ((x - cx) / cx) *  10;
-        const gx  = (x / r.width)  * 100;
-        const gy  = (y / r.height) * 100;
+        el.addEventListener('mousemove', e => {
+          const r  = el.getBoundingClientRect();
+          const x  = e.clientX - r.left;
+          const y  = e.clientY - r.top;
+          const rx = ((y - r.height / 2) / (r.height / 2)) * -grados;
+          const ry = ((x - r.width  / 2) / (r.width  / 2)) *  grados;
 
-        card.style.transform   = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px) scale(1.02)`;
-        card.style.transition  = 'transform 0.1s ease, box-shadow 0.1s ease';
-        brillo.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.45) 0%, transparent 65%)`;
-        brillo.style.opacity   = '1';
+          el.style.transform  = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px) scale(${escala})`;
+          el.style.transition = 'transform 0.1s ease';
+
+          if (shine) {
+            shine.style.background = `radial-gradient(circle at ${(x/r.width)*100}% ${(y/r.height)*100}%, rgba(255,255,255,0.45) 0%, transparent 65%)`;
+            shine.style.opacity = '1';
+          }
+        });
+
+        el.addEventListener('mouseleave', () => {
+          el.style.transform  = '';
+          el.style.transition = 'transform 0.5s ease';
+          if (shine) shine.style.opacity = '0';
+        });
       });
+    }
 
-      card.addEventListener('mouseleave', () => {
-        card.style.transform  = '';
-        card.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
-        brillo.style.opacity  = '0';
-      });
-    });
+    // Tarjetas grandes — tilt pronunciado con brillo
+    aplicarTilt('.card',             { grados: 10, escala: 1.02, brillo: true,  radio: '18px' });
+    aplicarTilt('.testimonio',       { grados: 8,  escala: 1.02, brillo: true,  radio: '16px' });
+    aplicarTilt('.contacto-card',    { grados: 6,  escala: 1.01, brillo: true,  radio: '20px' });
+    aplicarTilt('.about-visual',     { grados: 6,  escala: 1.01, brillo: true,  radio: '24px' });
+    aplicarTilt('.clases-box',       { grados: 4,  escala: 1.01, brillo: true,  radio: '24px' });
+    aplicarTilt('.testimonios-cta',  { grados: 5,  escala: 1.01, brillo: true,  radio: '20px' });
+
+    // Botones — tilt suave sin brillo de fondo
+    const btns = '.btn-primary, .btn-outline, .btn-ver, .btn-verde, .btn-yt, .email-btn, .red-link, .btn-comprar-item, .nav-cta';
+    aplicarTilt(btns, { grados: 12, escala: 1.06, brillo: false, radio: '999px' });
   </script>
 </body>
 </html>
