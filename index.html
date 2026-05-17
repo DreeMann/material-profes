@@ -449,6 +449,66 @@
 
     .btn-preview:hover { border-color: var(--verde); color: var(--verde); }
 
+    .btn-video {
+      background: transparent;
+      border: 1.5px solid #ffcccc;
+      color: #d4324b;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .btn-video:hover { background: #ff0000; border-color: #ff0000; color: #fff; }
+
+    /* ─── VIDEO OVERLAY ─── */
+    .video-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 250;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .video-overlay.activo { display: flex; }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    }
+
+    .video-cerrar {
+      position: absolute;
+      top: -44px;
+      right: 0;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .video-cerrar:hover { background: rgba(255,255,255,0.3); }
+
     .btn-comprar-item {
       background: var(--verde);
       color: var(--blanco);
@@ -1235,7 +1295,8 @@ tableros: {
               'materiales/tableros/potencias/tablero-potencias-preview.png',
               'materiales/tableros/potencias/tablero-potencias-blur.png'
             ],
-            link: 'https://pay.hotmart.com/J105867235Y'
+            link: 'https://pay.hotmart.com/J105867235Y',
+            videoYoutube: 'https://www.youtube.com/watch?v=tZOubEPAyao'
           }
         ]
       },
@@ -1292,6 +1353,9 @@ tableros: {
           const btnPreview = p.previews && p.previews.length
             ? `<button class="btn-preview" onclick="abrirPreview('${id}', ${i})">👁 Vista previa</button>`
             : '';
+          const btnVideo = p.videoYoutube
+            ? `<button class="btn-video" onclick="abrirVideo('${p.videoYoutube}')">▶ Ver video</button>`
+            : '';
           return `
             <div class="producto-item">
               <div class="producto-thumb" style="${thumbStyle}">${iconoPlaceholder}</div>
@@ -1302,6 +1366,7 @@ tableros: {
                 ${p.precio ? `<span class="producto-precio">$${p.precio} CLP</span>` : ''}
                 <div class="producto-acciones">
                   ${btnPreview}
+                  ${btnVideo}
                   <a href="${p.link}" class="btn-comprar-item" target="_blank" rel="noopener">🛒 Comprar</a>
                 </div>
               </div>
@@ -1414,6 +1479,37 @@ tableros: {
     // Botones — tilt suave sin brillo de fondo
     const btns = '.btn-primary, .btn-outline, .btn-ver, .btn-verde, .btn-yt, .email-btn, .red-link, .btn-comprar-item, .nav-cta';
     aplicarTilt(btns, { grados: 12, escala: 1.06, brillo: false, radio: '999px' });
+  </script>
+
+  <!-- VIDEO OVERLAY -->
+  <div class="video-overlay" id="videoOverlay" onclick="cerrarVideoFondo(event)">
+    <div class="video-container">
+      <button class="video-cerrar" onclick="cerrarVideo()">✕</button>
+      <iframe id="videoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    function abrirVideo(youtubeId) {
+      const id = youtubeId.includes('http')
+        ? (youtubeId.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1]
+        : youtubeId;
+      if (!id) return;
+      document.getElementById('videoIframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+      document.getElementById('videoOverlay').classList.add('activo');
+    }
+    function cerrarVideo() {
+      document.getElementById('videoIframe').src = '';
+      document.getElementById('videoOverlay').classList.remove('activo');
+    }
+    function cerrarVideoFondo(e) {
+      if (e.target === document.getElementById('videoOverlay')) cerrarVideo();
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && document.getElementById('videoOverlay').classList.contains('activo')) {
+        cerrarVideo();
+      }
+    });
   </script>
 
   <!-- FORM TESTIMONIO -->
