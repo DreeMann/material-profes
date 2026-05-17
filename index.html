@@ -726,6 +726,89 @@
 
     .btn-verde:hover { background: #d4668a; transform: translateY(-2px); }
 
+    /* ─── FORM TESTIMONIO ─── */
+    .form-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(74,32,53,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .form-overlay.activo { display: flex; }
+
+    .form-box {
+      background: var(--blanco);
+      border-radius: 24px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+      position: relative;
+    }
+
+    .form-box h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
+    .form-box > p { font-size: 0.875rem; color: var(--texto-medio); margin-bottom: 24px; }
+
+    .form-cerrar {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--texto-medio);
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .form-cerrar:hover { background: var(--borde); }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; color: var(--texto); }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      border: 1.5px solid var(--borde);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--texto);
+      background: var(--fondo);
+      transition: border-color 0.2s;
+      resize: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { outline: none; border-color: var(--verde); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .btn-enviar {
+      width: 100%;
+      background: var(--verde);
+      color: var(--blanco);
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 999px;
+      padding: 13px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-enviar:hover { background: #d4668a; transform: translateY(-1px); }
+    .btn-enviar:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .form-ok { display: none; text-align: center; padding: 20px 0; }
+    .form-ok .ok-icon { font-size: 3rem; margin-bottom: 12px; }
+    .form-ok h4 { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+    .form-ok p  { font-size: 0.88rem; color: var(--texto-medio); }
+
     .testimonios-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1016,7 +1099,7 @@
       <div class="testimonios-cta">
         <h3>¿Ya usaste algún recurso?</h3>
         <p>Comparte tu experiencia y tu testimonio podría aparecer destacado en esta página.</p>
-        <a href="mailto:esv.torres@gmail.com" class="btn-verde">Compartir mi experiencia</a>
+        <button class="btn-verde" onclick="abrirFormTestimonio()">Compartir mi experiencia</button>
       </div>
 
     </div>
@@ -1314,6 +1397,92 @@ tableros: {
     // Botones — tilt suave sin brillo de fondo
     const btns = '.btn-primary, .btn-outline, .btn-ver, .btn-verde, .btn-yt, .email-btn, .red-link, .btn-comprar-item, .nav-cta';
     aplicarTilt(btns, { grados: 12, escala: 1.06, brillo: false, radio: '999px' });
+  </script>
+
+  <!-- FORM TESTIMONIO -->
+  <div class="form-overlay" id="formOverlay" onclick="cerrarFormFondo(event)">
+    <div class="form-box">
+      <button class="form-cerrar" onclick="cerrarFormTestimonio()">✕</button>
+
+      <div id="formContenido">
+        <h3>Comparte tu experiencia 💬</h3>
+        <p>Tu testimonio será revisado antes de aparecer en la página.</p>
+
+        <form id="formTestimonio" action="https://formspree.io/f/xwvzeqkp" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ft-nombre">Nombre *</label>
+              <input type="text" id="ft-nombre" name="nombre" required placeholder="Ej: María González">
+            </div>
+            <div class="form-group">
+              <label for="ft-ciudad">Ciudad</label>
+              <input type="text" id="ft-ciudad" name="ciudad" placeholder="Ej: Santiago">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ft-rol">Rol / Cargo</label>
+            <input type="text" id="ft-rol" name="rol" placeholder="Ej: Docente de 3° básico">
+          </div>
+          <div class="form-group">
+            <label for="ft-mensaje">Tu testimonio *</label>
+            <textarea id="ft-mensaje" name="mensaje" rows="4" required placeholder="Cuéntanos cómo te ayudó el material..."></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="Nuevo testimonio - Prof. Vanessa">
+          <input type="text" name="_gotcha" style="display:none">
+          <button type="submit" class="btn-enviar" id="btnEnviar">Enviar testimonio →</button>
+        </form>
+      </div>
+
+      <div class="form-ok" id="formOk">
+        <div class="ok-icon">💌</div>
+        <h4>¡Gracias por tu mensaje!</h4>
+        <p>Tu testimonio fue recibido y será revisado antes de aparecer en la página.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function abrirFormTestimonio() {
+      document.getElementById('formOverlay').classList.add('activo');
+    }
+    function cerrarFormTestimonio() {
+      document.getElementById('formOverlay').classList.remove('activo');
+      setTimeout(() => {
+        document.getElementById('formContenido').style.display = '';
+        document.getElementById('formOk').style.display = '';
+        document.getElementById('formTestimonio').reset();
+        document.getElementById('btnEnviar').disabled = false;
+      }, 300);
+    }
+    function cerrarFormFondo(e) {
+      if (e.target === document.getElementById('formOverlay')) cerrarFormTestimonio();
+    }
+
+    document.getElementById('formTestimonio').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnEnviar');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      try {
+        const res = await fetch(this.action, {
+          method: 'POST',
+          body: new FormData(this),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          document.getElementById('formContenido').style.display = 'none';
+          document.getElementById('formOk').style.display = 'block';
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Enviar testimonio →';
+          alert('Hubo un error al enviar. Intenta nuevamente.');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.textContent = 'Enviar testimonio →';
+        alert('Hubo un error al enviar. Intenta nuevamente.');
+      }
+    });
   </script>
 </body>
 </html>
