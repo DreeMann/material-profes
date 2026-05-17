@@ -523,6 +523,7 @@
     .preview-pages {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -530,6 +531,7 @@
     .preview-page {
       position: relative;
       width: 100%;
+      max-width: 420px;
       aspect-ratio: 8.5 / 11;
       background-color: var(--blanco);
       border-radius: 12px;
@@ -540,12 +542,13 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
 
+
     .preview-page.bloqueada {
       filter: blur(10px);
       transform: scale(1.02);
     }
 
-    .preview-page-wrap { position: relative; border-radius: 12px; overflow: hidden; }
+    .preview-page-wrap { position: relative; border-radius: 12px; overflow: hidden; width: 100%; max-width: 420px; }
 
     .preview-candado {
       position: absolute;
