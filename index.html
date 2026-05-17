@@ -249,6 +249,7 @@
     .card:nth-child(4)::before { background: var(--violeta); }
     .card:nth-child(5)::before { background: #f4b09a; }
     .card:nth-child(6)::before { background: #a0e0d0; }
+    .card:nth-child(7)::before { background: #a0c4f0; }
 
     .card:hover { box-shadow: 0 20px 40px rgba(232,138,170,0.18); }
     .card, .testimonio, .contacto-card, .about-visual, .clases-box, .testimonios-cta {
@@ -281,6 +282,7 @@
     .card:nth-child(4) .card-icon { background: #ede8fd; }
     .card:nth-child(5) .card-icon { background: #fde8dc; }
     .card:nth-child(6) .card-icon { background: #dcf5ef; }
+    .card:nth-child(7) .card-icon { background: #dceeff; }
 
     .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
     .card p  { font-size: 0.875rem; color: var(--texto-medio); margin-bottom: 20px; }
@@ -915,6 +917,13 @@
         <button class="btn-ver" onclick="abrirModal('flashcards')">Ver materiales →</button>
       </div>
 
+      <div class="card">
+        <div class="card-icon">🔢</div>
+        <h3>Fichas de Matemática</h3>
+        <p>Material imprimible para reforzar habilidades matemáticas: número del día, valor posicional, antecesor y sucesor, comparación de números y más.</p>
+        <button class="btn-ver" onclick="abrirModal('fichas')">Ver materiales →</button>
+      </div>
+
     </div>
   </section>
 
@@ -1130,6 +1139,25 @@ tableros: {
           }
         ]
       },
+      fichas: {
+        icono: '🔢',
+        titulo: 'Fichas de Matemática',
+        subtitulo: 'Material imprimible listo para usar en el aula o en casa',
+        productos: [
+          {
+            nombre: 'Matemática 2° Básico Chile',
+            descripcion: '2° Básico · PDF imprimible · Matemática',
+            detalle: 'Fichas para reforzar habilidades matemáticas: número del día, valor posicional, antecesor y sucesor, comparación de números y representación numérica. Adaptado al currículo MINEDUC.',
+            precio: null,
+            thumbnail: 'materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png',
+            previews: [
+              'materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png',
+              'materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png'
+            ],
+            link: 'https://pay.hotmart.com/D105868267B'
+          }
+        ]
+      },
       flashcards: {
         icono: '🃏',
         titulo: 'Flashcards y pósters',
@@ -1171,7 +1199,7 @@ tableros: {
                 <strong>${p.nombre}</strong>
                 <span class="desc">${p.descripcion}</span>
                 ${p.detalle ? `<span class="detalle">${p.detalle}</span>` : ''}
-                <span class="producto-precio">$${p.precio} CLP</span>
+                ${p.precio ? `<span class="producto-precio">$${p.precio} CLP</span>` : ''}
                 <div class="producto-acciones">
                   ${btnPreview}
                   <a href="${p.link}" class="btn-comprar-item" target="_blank" rel="noopener">🛒 Comprar</a>
