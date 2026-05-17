@@ -322,13 +322,16 @@
     .modal {
       background: var(--blanco);
       border-radius: 24px;
-      width: 100%;
-      max-width: 680px;
-      max-height: 85vh;
+      width: 96vw;
+      max-width: 1480px;
+      height: 92vh;
+      max-height: 92vh;
       overflow-y: auto;
       box-shadow: 0 24px 64px rgba(74,32,53,0.2);
       animation: slideUp 0.28s ease;
     }
+
+    .modal-overlay { padding: 12px; }
 
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -378,13 +381,37 @@
 
     .modal-cerrar:hover { background: var(--borde); }
 
-    .modal-body { padding: 28px 32px 32px; }
+    .modal-body { padding: 28px 32px 32px; display: flex; flex-direction: column; gap: 24px; }
+
+    /* #productosLista es el contenedor flex padre — las .productos-lista dentro son los grids reales */
+    #productosLista { display: contents; }
 
     .productos-lista {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
     }
+
+    .individuales-toggle {
+      text-align: center;
+    }
+
+    .btn-toggle-individuales {
+      background: transparent;
+      border: 1.5px solid var(--borde);
+      color: var(--texto-medio);
+      border-radius: 999px;
+      padding: 10px 28px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-toggle-individuales:hover { border-color: var(--verde); color: var(--verde); }
+
+    .individuales-lista { display: none; }
+    .individuales-lista.visible { display: grid; }
 
     .producto-item {
       background: var(--fondo);
@@ -403,7 +430,7 @@
 
     .producto-thumb {
       width: 100%;
-      aspect-ratio: 4 / 5;
+      aspect-ratio: 16 / 9;
       background: linear-gradient(135deg, var(--verde-bg) 0%, var(--verde-claro) 100%);
       background-size: cover;
       background-position: center;
@@ -413,6 +440,72 @@
       font-size: 2.5rem;
       color: var(--blanco);
       position: relative;
+    }
+
+    /* Stack 3D para el card del Pack: 3 portadas apiladas */
+    .producto-thumb-stack {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      background: linear-gradient(135deg, var(--verde-bg) 0%, #fff 100%);
+      overflow: hidden;
+      padding: 16px;
+    }
+
+    .producto-thumb-stack .stack-card {
+      position: absolute;
+      width: 58%;
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 6px 16px rgba(74,32,53,0.18);
+      border: 2px solid #fff;
+      transition: transform 0.3s ease;
+    }
+
+    .producto-thumb-stack .stack-card:nth-child(1) {
+      top: 50%;
+      left: 6%;
+      transform: translateY(-50%) rotate(-8deg);
+      z-index: 1;
+    }
+
+    .producto-thumb-stack .stack-card:nth-child(2) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(0deg);
+      z-index: 3;
+      width: 62%;
+    }
+
+    .producto-thumb-stack .stack-card:nth-child(3) {
+      top: 50%;
+      right: 6%;
+      transform: translateY(-50%) rotate(8deg);
+      z-index: 2;
+    }
+
+    .producto-item:hover .producto-thumb-stack .stack-card:nth-child(1) {
+      transform: translate(-8px, -50%) rotate(-12deg);
+    }
+
+    .producto-item:hover .producto-thumb-stack .stack-card:nth-child(3) {
+      transform: translate(8px, -50%) rotate(12deg);
+    }
+
+    .stack-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: var(--rosa);
+      color: var(--blanco);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      z-index: 4;
+      letter-spacing: 0.05em;
     }
 
     .producto-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
@@ -426,6 +519,39 @@
       font-weight: 800;
       color: var(--verde);
       margin-top: 4px;
+    }
+
+    .producto-item.destacado {
+      border: 2px solid var(--rosa);
+      box-shadow: 0 6px 18px rgba(232,138,170,0.22);
+      background: linear-gradient(180deg, #fff7fa 0%, var(--fondo) 70%);
+      position: relative;
+    }
+
+    .producto-item.destacado .producto-thumb {
+      background: linear-gradient(135deg, var(--rosa) 0%, #f4a8c2 100%);
+    }
+
+    .etiqueta-pack {
+      display: inline-block;
+      align-self: flex-start;
+      background: var(--rosa);
+      color: var(--blanco);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 5px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .precio-original {
+      font-size: 0.85rem;
+      color: var(--texto-medio);
+      text-decoration: line-through;
+      font-weight: 600;
+      margin-right: 6px;
     }
 
     .producto-acciones {
@@ -602,13 +728,39 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
 
+    .preview-page.slide {
+      aspect-ratio: 16 / 9;
+      max-width: 520px;
+    }
 
     .preview-page.bloqueada {
       filter: blur(10px);
       transform: scale(1.02);
     }
 
-    .preview-page-wrap { position: relative; border-radius: 12px; overflow: hidden; width: 100%; max-width: 420px; }
+    .preview-page-wrap {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .preview-page-wrap.slide { max-width: 520px; }
+
+    .preview-numero {
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      background: rgba(0,0,0,0.55);
+      color: var(--blanco);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      z-index: 2;
+    }
 
     .preview-candado {
       position: absolute;
@@ -1033,42 +1185,42 @@
         <div class="card-icon">📝</div>
         <h3>Guías de tareas</h3>
         <p>Actividades complementarias alineadas con el currículum del MINEDUC, listas para entregar.</p>
-        <button class="btn-ver" onclick="abrirModal('guias')">Ver materiales →</button>
+        <a class="btn-ver" href="#guias" onclick="abrirModalDesdeLink(event,'guias')">Ver materiales →</a>
       </div>
 
       <div class="card">
         <div class="card-icon">🎨</div>
         <h3>Presentaciones</h3>
         <p>Diapositivas atractivas en Canva y PowerPoint para motivar a tus estudiantes.</p>
-        <button class="btn-ver" onclick="abrirModal('presentaciones')">Ver materiales →</button>
+        <a class="btn-ver" href="#presentaciones" onclick="abrirModalDesdeLink(event,'presentaciones')">Ver materiales →</a>
       </div>
 
       <div class="card">
         <div class="card-icon">📋</div>
         <h3>Pruebas y evaluaciones</h3>
         <p>Instrumentos de evaluación variados con rúbricas e indicadores de logro incluidos.</p>
-        <button class="btn-ver" onclick="abrirModal('pruebas')">Ver materiales →</button>
+        <a class="btn-ver" href="#pruebas" onclick="abrirModalDesdeLink(event,'pruebas')">Ver materiales →</a>
       </div>
 
-<div class="card">
+      <div class="card">
         <div class="card-icon">🗂️</div>
         <h3>Tableros interactivos</h3>
         <p>Tableros digitales y físicos para trabajar de forma colaborativa y dinámica en el aula.</p>
-        <button class="btn-ver" onclick="abrirModal('tableros')">Ver materiales →</button>
+        <a class="btn-ver" href="#tableros" onclick="abrirModalDesdeLink(event,'tableros')">Ver materiales →</a>
       </div>
 
       <div class="card">
         <div class="card-icon">🃏</div>
         <h3>Flashcards y pósters</h3>
         <p>Material visual imprimible para reforzar contenidos de forma entretenida y efectiva.</p>
-        <button class="btn-ver" onclick="abrirModal('flashcards')">Ver materiales →</button>
+        <a class="btn-ver" href="#flashcards" onclick="abrirModalDesdeLink(event,'flashcards')">Ver materiales →</a>
       </div>
 
       <div class="card">
         <div class="card-icon">🔢</div>
         <h3>Fichas de Matemática</h3>
         <p>Material imprimible para reforzar habilidades matemáticas: número del día, valor posicional, antecesor y sucesor, comparación de números y más.</p>
-        <button class="btn-ver" onclick="abrirModal('fichas')">Ver materiales →</button>
+        <a class="btn-ver" href="#fichas" onclick="abrirModalDesdeLink(event,'fichas')">Ver materiales →</a>
       </div>
 
     </div>
@@ -1261,16 +1413,74 @@
         subtitulo: 'Diapositivas en Canva y PowerPoint listas para usar',
         productos: [
           {
-            nombre: 'En la carpa matemágica · Divisiones (Parte 1)',
-            descripcion: '4°-5° Básico · PDF interactivo · Matemática',
-            detalle: 'Presentación animada con temática de circo para enseñar divisiones exactas. Incluye ruta de aprendizaje, objetivo MINEDUC, estrategias de reparto uno a uno y secuencia del divisor, y 14 ejercicios de práctica del Acto 1.',
-            precio: '5.990',
-            thumbnail: 'materiales/presentaciones/circo-divisiones/circo-divisiones-portada.png',
+            nombre: 'Pack 3 Actos · Circo de Divisiones',
+            descripcion: '4°-5° Básico · 3 PDFs interactivos · ~67 páginas',
+            detalle: 'Los 3 actos del Circo de Divisiones a precio especial. Progresión pedagógica completa con personajes: Mago Numerín (reparto), Comilla (algoritmo formal) y Restaldo el malabarista (división con resto). Incluye 49 ejercicios de práctica entre los 3 actos.',
+            precio: '13.990',
+            precioOriginal: '17.970',
+            etiquetaDestacado: 'PACK · AHORRA $3.980',
+            destacado: true,
+            formato: 'slide',
+            thumbnailStack: [
+              'materiales/presentaciones/circo-divisiones/acto-1-portada.png',
+              'materiales/presentaciones/circo-divisiones/acto-2-portada.png',
+              'materiales/presentaciones/circo-divisiones/acto-3-portada.png'
+            ],
             previews: [
-              'materiales/presentaciones/circo-divisiones/circo-divisiones-portada.png',
-              'materiales/presentaciones/circo-divisiones/circo-divisiones-portada.png'
+              'materiales/presentaciones/circo-divisiones/acto-1-prev2.png',
+              'materiales/presentaciones/circo-divisiones/acto-1-prev3.png',
+              'materiales/presentaciones/circo-divisiones/acto-2-prev2.png',
+              'materiales/presentaciones/circo-divisiones/acto-2-prev3.png',
+              'materiales/presentaciones/circo-divisiones/acto-3-prev2.png',
+              'materiales/presentaciones/circo-divisiones/acto-3-prev3.png',
+              'materiales/presentaciones/circo-divisiones/acto-3-prev4.png'
+            ],
+            link: 'https://pay.hotmart.com/Y105869485C'
+          },
+          {
+            nombre: 'Acto 1: Reparto equitativo de entradas',
+            descripcion: '4°-5° Básico · 25 páginas · Matemática',
+            detalle: 'Divisiones exactas con estrategias de reparto uno a uno y secuencia del divisor. Incluye ruta de aprendizaje, objetivo MINEDUC y 14 ejercicios de práctica con el Mago Numerín.',
+            precio: '5.990',
+            formato: 'slide',
+            thumbnail: 'materiales/presentaciones/circo-divisiones/acto-1-portada.png',
+            previews: [
+              'materiales/presentaciones/circo-divisiones/acto-1-prev1.png',
+              'materiales/presentaciones/circo-divisiones/acto-1-prev2.png',
+              'materiales/presentaciones/circo-divisiones/acto-1-prev3.png',
+              'materiales/presentaciones/circo-divisiones/acto-1-prev4.png'
             ],
             link: 'https://pay.hotmart.com/V105868970Y'
+          },
+          {
+            nombre: 'Acto 2: Tortazos del algoritmo tradicional',
+            descripcion: '4°-5° Básico · 22 páginas · Matemática',
+            detalle: 'Algoritmo formal de la división por una cifra. Presenta a Comilla (la coma/apóstrofe) y resuelve paso a paso 20÷5 y 96÷3. Incluye 10 ejercicios de práctica.',
+            precio: '5.990',
+            formato: 'slide',
+            thumbnail: 'materiales/presentaciones/circo-divisiones/acto-2-portada.png',
+            previews: [
+              'materiales/presentaciones/circo-divisiones/acto-2-prev1.png',
+              'materiales/presentaciones/circo-divisiones/acto-2-prev2.png',
+              'materiales/presentaciones/circo-divisiones/acto-2-prev3.png',
+              'materiales/presentaciones/circo-divisiones/acto-2-prev4.png'
+            ],
+            link: 'https://pay.hotmart.com/B105869409J'
+          },
+          {
+            nombre: 'Acto 3: ¿Y ahora qué hago con el resto?',
+            descripcion: '4°-5° Básico · 20 páginas · Matemática',
+            detalle: 'División con resto. Restaldo el malabarista enseña a interpretar el resto con la analogía de los globos. Resuelve 15÷2 y 234÷5 paso a paso. Incluye 25 ejercicios de práctica.',
+            precio: '5.990',
+            formato: 'slide',
+            thumbnail: 'materiales/presentaciones/circo-divisiones/acto-3-portada.png',
+            previews: [
+              'materiales/presentaciones/circo-divisiones/acto-3-prev1.png',
+              'materiales/presentaciones/circo-divisiones/acto-3-prev2.png',
+              'materiales/presentaciones/circo-divisiones/acto-3-prev3.png',
+              'materiales/presentaciones/circo-divisiones/acto-3-prev4.png'
+            ],
+            link: 'https://pay.hotmart.com/G105869448B'
           }
         ]
       },
@@ -1329,63 +1539,130 @@ tableros: {
 
     let categoriaActual = null;
 
-    function abrirModal(id) {
+    function renderProducto(cat, catId, idx, p) {
+      const btnPreview = p.previews && p.previews.length
+        ? `<button class="btn-preview" onclick="abrirPreview('${catId}', ${idx})">👁 Vista previa</button>`
+        : '';
+      const btnVideo = p.videoYoutube
+        ? `<button class="btn-video" onclick="abrirVideo('${p.videoYoutube}')">▶ Ver video</button>`
+        : '';
+      const itemClase = p.destacado ? 'producto-item destacado' : 'producto-item';
+      const badgePack = p.etiquetaDestacado
+        ? `<span class="etiqueta-pack">${p.etiquetaDestacado}</span>`
+        : '';
+      const precioOriginal = p.precioOriginal
+        ? `<span class="precio-original">$${p.precioOriginal}</span>`
+        : '';
+
+      let thumbHtml;
+      if (p.thumbnailStack && p.thumbnailStack.length) {
+        const stackCards = p.thumbnailStack.map(src =>
+          `<div class="stack-card" style="background-image:url('${src}')"></div>`
+        ).join('');
+        thumbHtml = `<div class="producto-thumb-stack">${stackCards}<span class="stack-badge">${p.thumbnailStack.length} ACTOS</span></div>`;
+      } else if (p.thumbnail) {
+        thumbHtml = `<div class="producto-thumb" style="background-image:url('${p.thumbnail}')"></div>`;
+      } else {
+        thumbHtml = `<div class="producto-thumb">${cat.icono}</div>`;
+      }
+
+      return `
+        <div class="${itemClase}">
+          ${thumbHtml}
+          <div class="producto-body">
+            ${badgePack}
+            <strong>${p.nombre}</strong>
+            <span class="desc">${p.descripcion}</span>
+            ${p.detalle ? `<span class="detalle">${p.detalle}</span>` : ''}
+            ${p.precio ? `<span class="producto-precio">${precioOriginal}$${p.precio} CLP</span>` : ''}
+            <div class="producto-acciones">
+              ${btnPreview}
+              ${btnVideo}
+              <a href="${p.link}" class="btn-comprar-item" target="_blank" rel="noopener">🛒 Comprar</a>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function abrirModal(id, pushUrl = true) {
+      if (!categorias[id]) return;
       const cat = categorias[id];
       categoriaActual = id;
-      document.getElementById('modalIcono').textContent   = cat.icono;
-      document.getElementById('modalTitulo').textContent  = cat.titulo;
+      document.getElementById('modalIcono').textContent     = cat.icono;
+      document.getElementById('modalTitulo').textContent    = cat.titulo;
       document.getElementById('modalSubtitulo').textContent = cat.subtitulo;
 
-      const lista = document.getElementById('productosLista');
+      const contenedor = document.getElementById('productosLista');
 
       if (cat.productos.length === 0) {
-        lista.innerHTML = `
+        contenedor.innerHTML = `
           <div class="modal-proximamente">
             <div class="prox-icon">🌸</div>
             <p><strong>¡Próximamente!</strong><br>Los materiales de esta categoría estarán disponibles muy pronto.</p>
           </div>`;
       } else {
-        lista.innerHTML = cat.productos.map((p, i) => {
-          const thumbStyle = p.thumbnail
-            ? `background-image:url('${p.thumbnail}')`
-            : '';
-          const iconoPlaceholder = p.thumbnail ? '' : cat.icono;
-          const btnPreview = p.previews && p.previews.length
-            ? `<button class="btn-preview" onclick="abrirPreview('${id}', ${i})">👁 Vista previa</button>`
-            : '';
-          const btnVideo = p.videoYoutube
-            ? `<button class="btn-video" onclick="abrirVideo('${p.videoYoutube}')">▶ Ver video</button>`
-            : '';
-          return `
-            <div class="producto-item">
-              <div class="producto-thumb" style="${thumbStyle}">${iconoPlaceholder}</div>
-              <div class="producto-body">
-                <strong>${p.nombre}</strong>
-                <span class="desc">${p.descripcion}</span>
-                ${p.detalle ? `<span class="detalle">${p.detalle}</span>` : ''}
-                ${p.precio ? `<span class="producto-precio">$${p.precio} CLP</span>` : ''}
-                <div class="producto-acciones">
-                  ${btnPreview}
-                  ${btnVideo}
-                  <a href="${p.link}" class="btn-comprar-item" target="_blank" rel="noopener">🛒 Comprar</a>
-                </div>
-              </div>
-            </div>`;
-        }).join('');
+        const destacados  = cat.productos.map((p, i) => ({ p, i })).filter(({ p }) => p.destacado);
+        const individuales = cat.productos.map((p, i) => ({ p, i })).filter(({ p }) => !p.destacado);
+
+        const grillaDest = destacados.map(({ p, i }) => renderProducto(cat, id, i, p)).join('');
+        const grillaInd  = individuales.map(({ p, i }) => renderProducto(cat, id, i, p)).join('');
+
+        let html = `<div class="productos-lista">${grillaDest}</div>`;
+
+        if (individuales.length > 0 && destacados.length > 0) {
+          html += `
+            <div class="individuales-toggle">
+              <button class="btn-toggle-individuales" onclick="toggleIndividuales()">▾ Ver los 3 actos por separado</button>
+            </div>
+            <div class="productos-lista individuales-lista" id="listaIndividuales">${grillaInd}</div>`;
+        } else if (individuales.length > 0) {
+          html += `<div class="productos-lista">${grillaInd}</div>`;
+        }
+
+        contenedor.innerHTML = html;
       }
 
+      if (pushUrl) history.pushState({ modal: id }, '', '#' + id);
       document.getElementById('modalOverlay').classList.add('activo');
       document.body.style.overflow = 'hidden';
     }
 
-    function cerrarModal() {
+    function abrirModalDesdeLink(e, id) {
+      e.preventDefault();
+      abrirModal(id);
+    }
+
+    function toggleIndividuales() {
+      const lista = document.getElementById('listaIndividuales');
+      const btn   = document.querySelector('.btn-toggle-individuales');
+      if (!lista || !btn) return;
+      const visible = lista.classList.toggle('visible');
+      btn.textContent = visible ? '▴ Ocultar actos individuales' : '▾ Ver los 3 actos por separado';
+    }
+
+    function cerrarModal(pushUrl = true) {
       document.getElementById('modalOverlay').classList.remove('activo');
       document.body.style.overflow = '';
+      if (pushUrl) history.pushState(null, '', location.pathname + location.search);
     }
 
     function cerrarModalFondo(e) {
       if (e.target === document.getElementById('modalOverlay')) cerrarModal();
     }
+
+    window.addEventListener('popstate', function () {
+      const hash = location.hash.slice(1);
+      if (hash && categorias[hash]) {
+        abrirModal(hash, false);
+      } else if (document.getElementById('modalOverlay').classList.contains('activo')) {
+        cerrarModal(false);
+      }
+    });
+
+    window.addEventListener('load', function () {
+      const hash = location.hash.slice(1);
+      if (hash && categorias[hash]) abrirModal(hash, false);
+    });
 
     // ── Lightbox de vista previa ──
     function abrirPreview(catId, prodIdx) {
@@ -1394,20 +1671,31 @@ tableros: {
       document.getElementById('previewSubtitulo').textContent = producto.descripcion;
       document.getElementById('previewBtnComprar').href = producto.link;
 
+      const esSlide = producto.formato === 'slide';
+      const pageClase = esSlide ? 'preview-page slide' : 'preview-page';
+      const wrapClase = esSlide ? 'preview-page-wrap slide' : 'preview-page-wrap';
+      const total = producto.previews.length;
+
       const pagesEl = document.getElementById('previewPages');
       pagesEl.innerHTML = producto.previews.map((src, i) => {
-        const esUltima = i === producto.previews.length - 1 && producto.previews.length > 1;
+        const esUltima = i === total - 1 && total > 1;
+        const numero = `<span class="preview-numero">Página ${i + 1} de ${total}</span>`;
         if (esUltima) {
           return `
-            <div class="preview-page-wrap">
-              <div class="preview-page bloqueada" style="background-image:url('${src}')"></div>
+            <div class="${wrapClase}">
+              ${numero}
+              <div class="${pageClase} bloqueada" style="background-image:url('${src}')"></div>
               <div class="preview-candado">
                 <div class="lock">🔒</div>
                 <span>Compra el material para desbloquear todas las páginas</span>
               </div>
             </div>`;
         }
-        return `<div class="preview-page" style="background-image:url('${src}')"></div>`;
+        return `
+          <div class="${wrapClase}">
+            ${numero}
+            <div class="${pageClase}" style="background-image:url('${src}')"></div>
+          </div>`;
       }).join('');
 
       document.getElementById('previewOverlay').classList.add('activo');
