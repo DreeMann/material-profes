@@ -127,14 +127,36 @@
       transform: rotate(3deg);
       border: 3px solid rgba(255,255,255,0.4);
       transition: transform 0.3s ease;
+      cursor: pointer;
+      background: rgba(255,255,255,0.1);
+      aspect-ratio: 1 / 1.3;
     }
 
     .hero-mockup:hover { transform: rotate(0deg) scale(1.03); }
+    .hero-mockup:focus-visible { outline: 3px solid var(--amarillo); outline-offset: 4px; }
 
     .hero-mockup img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
     }
+
+    .hero-mockup-stack {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-mockup-stack img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-mockup-stack img:nth-child(1) { transform: translate(-6px, -4px) rotate(-3deg); z-index: 1; }
+    .hero-mockup-stack img:nth-child(2) { z-index: 2; }
+    .hero-mockup-stack img:nth-child(3) { transform: translate(6px, 4px) rotate(3deg); z-index: 1; }
 
     .hero-mockup-badge {
       position: absolute;
@@ -589,6 +611,15 @@
 
     .producto-item.destacado .producto-thumb {
       background: linear-gradient(135deg, var(--rosa) 0%, #f4a8c2 100%);
+    }
+
+    @keyframes glowDorado {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+      50%      { box-shadow: 0 0 0 8px rgba(255, 193, 7, 0.55), 0 0 30px 4px rgba(255, 193, 7, 0.45); }
+    }
+    .producto-resaltado {
+      animation: glowDorado 0.7s ease-in-out 3;
+      border-color: #ffc107 !important;
     }
 
     .etiqueta-pack {
@@ -1330,10 +1361,11 @@
         </div>
       </div>
       <div class="hero-visual">
-        <div class="hero-mockup">
-          <img src="materiales/presentaciones/circo-divisiones/acto-1-portada.png" alt="Presentación Circo de Divisiones">
-        </div>
-        <div class="hero-mockup-badge">🎪 ¡Ya disponible!</div>
+        <div class="hero-mockup" id="heroMockup" role="button" tabindex="0"
+             aria-label="Ver producto destacado"
+             onclick="abrirHeroProducto()"
+             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();abrirHeroProducto();}"></div>
+        <div class="hero-mockup-badge" id="heroMockupBadge"></div>
       </div>
     </div>
   </section>
@@ -1749,7 +1781,7 @@ tableros: {
       }
 
       return `
-        <div class="${itemClase}">
+        <div class="${itemClase}" data-cat="${catId}" data-idx="${idx}">
           ${thumbHtml}
           <div class="producto-body">
             ${badgePack}
@@ -1766,7 +1798,7 @@ tableros: {
         </div>`;
     }
 
-    function abrirModal(id, pushUrl = true) {
+    function abrirModal(id, pushUrl = true, scrollToIdx = null) {
       if (!categorias[id]) return;
       const cat = categorias[id];
       categoriaActual = id;
@@ -1807,6 +1839,59 @@ tableros: {
       if (pushUrl) history.pushState({ modal: id }, '', '#' + id);
       document.getElementById('modalOverlay').classList.add('activo');
       document.body.style.overflow = 'hidden';
+
+      if (scrollToIdx !== null) {
+        requestAnimationFrame(() => {
+          const item = document.querySelector(`.producto-item[data-cat="${id}"][data-idx="${scrollToIdx}"]`);
+          if (!item) return;
+          if (!item.offsetParent) toggleIndividuales();
+          item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          item.classList.add('producto-resaltado');
+          setTimeout(() => item.classList.remove('producto-resaltado'), 2400);
+        });
+      }
+    }
+
+    // Producto más caro de todo el catálogo (para el hero)
+    function encontrarProductoMasCaro() {
+      let mejor = null;
+      Object.keys(categorias).forEach(catId => {
+        categorias[catId].productos.forEach((p, idx) => {
+          const precio = parseFloat(String(p.precio || '').replace(/\./g, '').replace(',', '.'));
+          if (!precio || isNaN(precio)) return;
+          const score = precio + (p.destacado ? 0.5 : 0);
+          if (!mejor || score > mejor.score) mejor = { catId, idx, p, score };
+        });
+      });
+      return mejor;
+    }
+
+    let heroProductoRef = null;
+    function popularHero() {
+      const mejor = encontrarProductoMasCaro();
+      const visual = document.querySelector('.hero-visual');
+      if (!mejor) { if (visual) visual.style.display = 'none'; return; }
+      heroProductoRef = { catId: mejor.catId, idx: mejor.idx };
+
+      const mockup = document.getElementById('heroMockup');
+      const badge  = document.getElementById('heroMockupBadge');
+      const p = mejor.p;
+
+      if (p.thumbnailStack && p.thumbnailStack.length) {
+        const imgs = p.thumbnailStack.slice(0, 3).map(src =>
+          `<img src="${src}" alt="">`
+        ).join('');
+        mockup.innerHTML = `<div class="hero-mockup-stack">${imgs}</div>`;
+      } else if (p.thumbnail) {
+        mockup.innerHTML = `<img src="${p.thumbnail}" alt="${p.nombre}">`;
+      }
+      mockup.setAttribute('aria-label', `Ver: ${p.nombre}`);
+      badge.textContent = p.nombre;
+    }
+
+    function abrirHeroProducto() {
+      if (!heroProductoRef) return;
+      abrirModal(heroProductoRef.catId, true, heroProductoRef.idx);
     }
 
     function abrirModalDesdeLink(e, id) {
@@ -1842,6 +1927,7 @@ tableros: {
     });
 
     window.addEventListener('load', function () {
+      popularHero();
       const hash = location.hash.slice(1);
       if (hash && categorias[hash]) abrirModal(hash, false);
     });
