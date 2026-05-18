@@ -136,8 +136,6 @@
       border: 3px solid rgba(255,255,255,0.4);
       transition: transform 0.3s ease;
       cursor: pointer;
-      background: rgba(255,255,255,0.1);
-      aspect-ratio: 1 / 1.3;
     }
 
     .hero-mockup:hover { transform: rotate(0deg) scale(1.03); }
@@ -145,26 +143,20 @@
 
     .hero-mockup img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
       display: block;
     }
 
     .hero-mockup-stack {
       position: relative;
-      width: 100%;
-      height: 100%;
     }
     .hero-mockup-stack img {
-      position: absolute;
-      inset: 0;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      display: block;
     }
-    .hero-mockup-stack img:nth-child(1) { transform: translate(-6px, -4px) rotate(-3deg); z-index: 1; }
-    .hero-mockup-stack img:nth-child(2) { z-index: 2; }
-    .hero-mockup-stack img:nth-child(3) { transform: translate(6px, 4px) rotate(3deg); z-index: 1; }
+    .hero-mockup-stack img:nth-child(1),
+    .hero-mockup-stack img:nth-child(3) { display: none; }
 
     .hero-mockup-badge {
       position: absolute;
