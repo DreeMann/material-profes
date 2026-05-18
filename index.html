@@ -1796,8 +1796,7 @@ tableros: {
         ).join('');
         thumbHtml = `<div class="producto-thumb-stack">${stackCards}<span class="stack-badge">${p.thumbnailStack.length} ACTOS</span></div>`;
       } else if (p.thumbnail) {
-        const thumbClase = p.formato === 'slide' ? 'producto-thumb' : 'producto-thumb vertical';
-        thumbHtml = `<div class="${thumbClase}" style="background-image:url('${p.thumbnail}')"></div>`;
+        thumbHtml = `<div class="producto-thumb" data-thumb-src="${p.thumbnail}" style="background-image:url('${p.thumbnail}')"></div>`;
       } else {
         thumbHtml = `<div class="producto-thumb">${cat.icono}</div>`;
       }
@@ -1856,6 +1855,7 @@ tableros: {
         }
 
         contenedor.innerHTML = html;
+        aplicarOrientacionThumbs();
       }
 
       if (pushUrl) history.pushState({ modal: id }, '', '#' + id);
@@ -1872,6 +1872,19 @@ tableros: {
           setTimeout(() => item.classList.remove('producto-resaltado'), 2400);
         });
       }
+    }
+
+    // Detecta orientación real de cada thumbnail y aplica clase 'vertical' si corresponde
+    function aplicarOrientacionThumbs() {
+      document.querySelectorAll('.producto-thumb[data-thumb-src]').forEach(el => {
+        const src = el.dataset.thumbSrc;
+        if (!src) return;
+        const img = new Image();
+        img.onload = () => {
+          if (img.naturalHeight > img.naturalWidth) el.classList.add('vertical');
+        };
+        img.src = src;
+      });
     }
 
     // Producto más caro de todo el catálogo (para el hero)
