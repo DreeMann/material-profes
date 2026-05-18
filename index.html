@@ -1463,7 +1463,7 @@
     <div class="sec-title">
       <span class="eyebrow">Aprende conmigo</span>
       <h2>Asesorías Online</h2>
-      <p>Agenda una clase personalizada o visita mi canal con videos educativos gratuitos.</p>
+      <p>Agenda una asesoría personalizada o visita mi canal con videos educativos gratuitos.</p>
       <div class="divider"></div>
     </div>
 
@@ -1472,7 +1472,7 @@
       <h3>Videos destacados en YouTube</h3>
       <p>Contenido educativo gratuito para docentes y estudiantes. Estrategias, recursos y mucho más.</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-        <a href="mailto:esv.torres@gmail.com" class="btn-yt">Agendar una clase</a>
+        <button class="btn-yt" onclick="abrirFormAsesoria()">Agendar una asesoría</button>
         <a href="https://www.youtube.com/@prof.vanhessa" class="btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.45);" target="_blank" rel="noopener">Visitar canal ▶</a>
       </div>
     </div>
@@ -2106,6 +2106,50 @@ tableros: {
   </script>
 
   <!-- FORM TESTIMONIO -->
+  <!-- FORMULARIO ASESORÍA -->
+  <div class="form-overlay" id="formAsesoriaOverlay" onclick="cerrarFormAsesoriaFondo(event)">
+    <div class="form-box">
+      <button class="form-cerrar" onclick="cerrarFormAsesoria()">✕</button>
+      <div id="formAsesoriaContenido">
+        <h3>Agenda tu asesoría 📅</h3>
+        <form id="formAsesoria" action="https://formspree.io/f/xwvzeqkp" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fa-nombre">Nombre *</label>
+              <input type="text" id="fa-nombre" name="nombre" required placeholder="Ej: María González">
+            </div>
+            <div class="form-group">
+              <label for="fa-email">Correo electrónico *</label>
+              <input type="email" id="fa-email" name="email" required placeholder="Ej: maria@gmail.com">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fa-telefono">WhatsApp / Teléfono</label>
+              <input type="text" id="fa-telefono" name="telefono" placeholder="Ej: +56 9 1234 5678">
+            </div>
+            <div class="form-group">
+              <label for="fa-nivel">Nivel / Grado</label>
+              <input type="text" id="fa-nivel" name="nivel" placeholder="Ej: 4° básico">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fa-mensaje">¿En qué necesitas ayuda? (opcional)</label>
+            <textarea id="fa-mensaje" name="mensaje" rows="3" placeholder="Cuéntame qué tema o materia quieres reforzar..."></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="Nueva solicitud de asesoría - Prof. Vanessa">
+          <input type="text" name="_gotcha" style="display:none">
+          <button type="submit" class="btn-enviar" id="btnEnviarAsesoria">Enviar solicitud →</button>
+        </form>
+      </div>
+      <div class="form-ok" id="formAsesoriaOk">
+        <div class="ok-icon">📅</div>
+        <h4>¡Solicitud recibida!</h4>
+        <p>Vanessa se pondrá en contacto contigo a la brevedad para coordinar tu asesoría.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="form-overlay" id="formOverlay" onclick="cerrarFormFondo(event)">
     <div class="form-box">
       <button class="form-cerrar" onclick="cerrarFormTestimonio()">✕</button>
@@ -2147,6 +2191,51 @@ tableros: {
   </div>
 
   <script>
+    function abrirFormAsesoria() {
+      document.getElementById('formAsesoriaOverlay').classList.add('activo');
+      document.body.style.overflow = 'hidden';
+    }
+    function cerrarFormAsesoria() {
+      document.getElementById('formAsesoriaOverlay').classList.remove('activo');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        document.getElementById('formAsesoriaContenido').style.display = '';
+        document.getElementById('formAsesoriaOk').style.display = '';
+        document.getElementById('formAsesoria').reset();
+        document.getElementById('btnEnviarAsesoria').disabled = false;
+        document.getElementById('btnEnviarAsesoria').textContent = 'Enviar solicitud →';
+      }, 300);
+    }
+    function cerrarFormAsesoriaFondo(e) {
+      if (e.target === document.getElementById('formAsesoriaOverlay')) cerrarFormAsesoria();
+    }
+
+    document.getElementById('formAsesoria').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnEnviarAsesoria');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      try {
+        const res = await fetch(this.action, {
+          method: 'POST',
+          body: new FormData(this),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          document.getElementById('formAsesoriaContenido').style.display = 'none';
+          document.getElementById('formAsesoriaOk').style.display = 'block';
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Enviar solicitud →';
+          alert('Hubo un error al enviar. Intenta nuevamente.');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.textContent = 'Enviar solicitud →';
+        alert('Hubo un error al enviar. Intenta nuevamente.');
+      }
+    });
+
     function abrirFormTestimonio() {
       document.getElementById('formOverlay').classList.add('activo');
     }
