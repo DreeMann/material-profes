@@ -523,6 +523,13 @@
       position: relative;
     }
 
+    .producto-thumb.vertical {
+      aspect-ratio: 3 / 4;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-color: #fff;
+    }
+
     /* Stack 3D para el card del Pack: 3 portadas apiladas */
     .producto-thumb-stack {
       width: 100%;
@@ -1789,7 +1796,8 @@ tableros: {
         ).join('');
         thumbHtml = `<div class="producto-thumb-stack">${stackCards}<span class="stack-badge">${p.thumbnailStack.length} ACTOS</span></div>`;
       } else if (p.thumbnail) {
-        thumbHtml = `<div class="producto-thumb" style="background-image:url('${p.thumbnail}')"></div>`;
+        const thumbClase = p.formato === 'slide' ? 'producto-thumb' : 'producto-thumb vertical';
+        thumbHtml = `<div class="${thumbClase}" style="background-image:url('${p.thumbnail}')"></div>`;
       } else {
         thumbHtml = `<div class="producto-thumb">${cat.icono}</div>`;
       }
