@@ -1,0 +1,44 @@
+{
+  "id": "fichas",
+  "orden": 5,
+  "icono": "📄",
+  "titulo": "Fichas de trabajo",
+  "subtitulo": "Material imprimible de Matemática, Lenguaje y más asignaturas, listo para usar en el aula o en casa",
+  "productos": [
+    {
+      "nombre": "Lee y Ordena · Pack 4 Fichas de Lenguaje",
+      "descripcion": "2° Básico · 4 fichas · Lenguaje",
+      "detalle": "Pack de 4 fichas \"Lee y ordena\": el estudiante lee el cuento, colorea una imagen por lectura y luego recorta y ordena 6 tarjetas según los eventos de la historia. Incluye: Las hormigas trabajadoras, Sara y el huevito perdido, El viaje a la nieve y Nicolás fue a pescar con su papá. Listos para imprimir.",
+      "precio": "3.990",
+      "thumbnail": "materiales/fichas/lee-y-ordena/lee-y-ordena-portada.jpg",
+      "previews": [
+        {
+          "src": "materiales/fichas/lee-y-ordena/lee-y-ordena-prev1.jpg"
+        },
+        {
+          "src": "materiales/fichas/lee-y-ordena/lee-y-ordena-prev2.jpg"
+        },
+        {
+          "src": "materiales/fichas/lee-y-ordena/lee-y-ordena-prev3.jpg"
+        }
+      ],
+      "link": "https://pay.hotmart.com/Q105882107T"
+    },
+    {
+      "nombre": "Matemática 2° Básico Chile",
+      "descripcion": "2° Básico · PDF imprimible · Matemática",
+      "detalle": "Fichas para reforzar habilidades matemáticas: número del día, valor posicional, antecesor y sucesor, comparación de números y representación numérica. Adaptado al currículo MINEDUC.",
+      "precio": null,
+      "thumbnail": "materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png",
+      "previews": [
+        {
+          "src": "materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png"
+        },
+        {
+          "src": "materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png"
+        }
+      ],
+      "link": "https://pay.hotmart.com/D105868267B"
+    }
+  ]
+}

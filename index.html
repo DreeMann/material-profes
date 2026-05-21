@@ -1406,6 +1406,8 @@
       .modal-overlay { padding: 0; align-items: flex-end; }
     }
   </style>
+  <!-- Netlify Identity: redirige a /admin/ tras login (link de invitación a Vanessa) -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
@@ -1689,169 +1691,36 @@
      *   link: "https://hotmart.com/product/..."
      * }
      */
-    const categorias = {
-      guias: {
-        icono: '📝',
-        titulo: 'Guías de tareas',
-        subtitulo: 'Material de trabajo complementario para tus estudiantes',
-        productos: []
-      },
-      presentaciones: {
-        icono: '🎨',
-        titulo: 'Presentaciones',
-        subtitulo: 'Diapositivas en Canva y PowerPoint listas para usar',
-        productos: [
-          {
-            nombre: 'Pack 3 Actos · Circo de Divisiones',
-            descripcion: '4°-5° Básico · 3 PDFs interactivos · ~67 páginas',
-            detalle: 'Los 3 actos del Circo de Divisiones a precio especial. Progresión pedagógica completa con personajes: Mago Numerín (reparto), Comilla (algoritmo formal) y Restaldo el malabarista (división con resto). Incluye 49 ejercicios de práctica entre los 3 actos.',
-            precio: '13.990',
-            precioOriginal: '17.970',
-            etiquetaDestacado: 'PACK · AHORRA $3.980',
-            destacado: true,
-            formato: 'slide',
-            thumbnailStack: [
-              'materiales/presentaciones/circo-divisiones/acto-1-portada.png',
-              'materiales/presentaciones/circo-divisiones/acto-2-portada.png',
-              'materiales/presentaciones/circo-divisiones/acto-3-portada.png'
-            ],
-            previews: [
-              'materiales/presentaciones/circo-divisiones/acto-1-prev2.png',
-              'materiales/presentaciones/circo-divisiones/acto-1-prev3.png',
-              'materiales/presentaciones/circo-divisiones/acto-2-prev2.png',
-              'materiales/presentaciones/circo-divisiones/acto-2-prev3.png',
-              'materiales/presentaciones/circo-divisiones/acto-3-prev2.png',
-              'materiales/presentaciones/circo-divisiones/acto-3-prev3.png',
-              'materiales/presentaciones/circo-divisiones/acto-3-prev4.png'
-            ],
-            link: 'https://pay.hotmart.com/Y105869485C'
-          },
-          {
-            nombre: 'Acto 1: Reparto equitativo de entradas',
-            descripcion: '4°-5° Básico · 25 páginas · Matemática',
-            detalle: 'Divisiones exactas con estrategias de reparto uno a uno y secuencia del divisor. Incluye ruta de aprendizaje, objetivo MINEDUC y 14 ejercicios de práctica con el Mago Numerín.',
-            precio: '5.990',
-            formato: 'slide',
-            thumbnail: 'materiales/presentaciones/circo-divisiones/acto-1-portada.png',
-            previews: [
-              'materiales/presentaciones/circo-divisiones/acto-1-prev1.png',
-              'materiales/presentaciones/circo-divisiones/acto-1-prev2.png',
-              'materiales/presentaciones/circo-divisiones/acto-1-prev3.png',
-              'materiales/presentaciones/circo-divisiones/acto-1-prev4.png'
-            ],
-            link: 'https://pay.hotmart.com/V105868970Y'
-          },
-          {
-            nombre: 'Acto 2: Tortazos del algoritmo tradicional',
-            descripcion: '4°-5° Básico · 22 páginas · Matemática',
-            detalle: 'Algoritmo formal de la división por una cifra. Presenta a Comilla (la coma/apóstrofe) y resuelve paso a paso 20÷5 y 96÷3. Incluye 10 ejercicios de práctica.',
-            precio: '5.990',
-            formato: 'slide',
-            thumbnail: 'materiales/presentaciones/circo-divisiones/acto-2-portada.png',
-            previews: [
-              'materiales/presentaciones/circo-divisiones/acto-2-prev1.png',
-              'materiales/presentaciones/circo-divisiones/acto-2-prev2.png',
-              'materiales/presentaciones/circo-divisiones/acto-2-prev3.png',
-              'materiales/presentaciones/circo-divisiones/acto-2-prev4.png'
-            ],
-            link: 'https://pay.hotmart.com/B105869409J'
-          },
-          {
-            nombre: 'Acto 3: ¿Y ahora qué hago con el resto?',
-            descripcion: '4°-5° Básico · 20 páginas · Matemática',
-            detalle: 'División con resto. Restaldo el malabarista enseña a interpretar el resto con la analogía de los globos. Resuelve 15÷2 y 234÷5 paso a paso. Incluye 25 ejercicios de práctica.',
-            precio: '5.990',
-            formato: 'slide',
-            thumbnail: 'materiales/presentaciones/circo-divisiones/acto-3-portada.png',
-            previews: [
-              'materiales/presentaciones/circo-divisiones/acto-3-prev1.png',
-              'materiales/presentaciones/circo-divisiones/acto-3-prev2.png',
-              'materiales/presentaciones/circo-divisiones/acto-3-prev3.png',
-              'materiales/presentaciones/circo-divisiones/acto-3-prev4.png'
-            ],
-            link: 'https://pay.hotmart.com/G105869448B'
-          }
-        ]
-      },
-      pruebas: {
-        icono: '📋',
-        titulo: 'Pruebas y evaluaciones',
-        subtitulo: 'Instrumentos de evaluación con rúbricas incluidas',
-        productos: []
-      },
-tableros: {
-        icono: '🗂️',
-        titulo: 'Material didáctico',
-        subtitulo: 'Recursos imprimibles y manipulables para un aprendizaje activo y memorable',
-        productos: [
-          {
-            nombre: 'Brazaletes educativos · Tablas de multiplicar',
-            descripcion: 'Todos los niveles · PDF imprimible · Matemática',
-            detalle: 'Brazaletes imprimibles con los múltiplos del 2 al 12. El estudiante los recorta, arma y usa como pulsera para repasar las tablas en cualquier momento. Incluye guía de uso.',
-            precio: '1.990',
-            thumbnail: 'materiales/tableros/brazaletes-multiplicar/brazaletes-portada.png',
-            previews: [
-              'materiales/tableros/brazaletes-multiplicar/brazaletes-portada.png',
-              'materiales/tableros/brazaletes-multiplicar/brazaletes-prev2.png',
-              'materiales/tableros/brazaletes-multiplicar/brazaletes-prev3.png'
-            ],
-            link: 'https://pay.hotmart.com/A105880211V',
-            videoYoutube: 'https://www.youtube.com/watch?v=j3BK76Mp7ds'
-          },
-          {
-            nombre: 'Tablero de Juego · Potencias',
-            descripcion: '8° Básico · PDF imprimible · Matemática',
-            detalle: 'Los estudiantes avanzan por el tablero respondiendo ejercicios de potencias. Para 2 a 4 jugadores, ideal para trabajo en grupos y cierre de unidad.',
-            precio: '1.990',
-            thumbnail: 'materiales/tableros/potencias/tablero-potencias-portada.png',
-            previews: [
-              'materiales/tableros/potencias/tablero-potencias-preview.png',
-              'materiales/tableros/potencias/tablero-potencias-blur.png'
-            ],
-            link: 'https://pay.hotmart.com/J105867235Y',
-            videoYoutube: 'https://www.youtube.com/watch?v=tZOubEPAyao'
-          }
-        ]
-      },
-      fichas: {
-        icono: '📄',
-        titulo: 'Fichas de trabajo',
-        subtitulo: 'Material imprimible de Matemática, Lenguaje y más asignaturas, listo para usar en el aula o en casa',
-        productos: [
-          {
-            nombre: 'Lee y Ordena · Pack 4 Fichas de Lenguaje',
-            descripcion: '2° Básico · 4 fichas · Lenguaje',
-            detalle: 'Pack de 4 fichas "Lee y ordena": el estudiante lee el cuento, colorea una imagen por lectura y luego recorta y ordena 6 tarjetas según los eventos de la historia. Incluye: Las hormigas trabajadoras, Sara y el huevito perdido, El viaje a la nieve y Nicolás fue a pescar con su papá. Listos para imprimir.',
-            precio: '3.990',
-            thumbnail: 'materiales/fichas/lee-y-ordena/lee-y-ordena-portada.jpg',
-            previews: [
-              'materiales/fichas/lee-y-ordena/lee-y-ordena-prev1.jpg',
-              'materiales/fichas/lee-y-ordena/lee-y-ordena-prev2.jpg',
-              'materiales/fichas/lee-y-ordena/lee-y-ordena-prev3.jpg'
-            ],
-            link: 'https://pay.hotmart.com/Q105882107T'
-          },
-          {
-            nombre: 'Matemática 2° Básico Chile',
-            descripcion: '2° Básico · PDF imprimible · Matemática',
-            detalle: 'Fichas para reforzar habilidades matemáticas: número del día, valor posicional, antecesor y sucesor, comparación de números y representación numérica. Adaptado al currículo MINEDUC.',
-            precio: null,
-            thumbnail: 'materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png',
-            previews: [
-              'materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png',
-              'materiales/fichas/matematica-2-basico/matematica-2-basico-portada.png'
-            ],
-            link: 'https://pay.hotmart.com/D105868267B'
-          }
-        ]
-      },
-      flashcards: {
-        icono: '🃏',
-        titulo: 'Flashcards y pósters',
-        subtitulo: 'Material visual imprimible para reforzar contenidos',
-        productos: []
+    // Los productos se cargan desde _data/categorias/*.json al iniciar la página.
+    // Esto permite que Vanessa los edite vía Decap CMS (/admin) sin tocar este HTML.
+    let categorias = {};
+
+    async function cargarCategorias() {
+      const ids = ['guias', 'presentaciones', 'pruebas', 'tableros', 'fichas', 'flashcards'];
+      const archivos = await Promise.all(
+        ids.map(id => fetch(`_data/categorias/${id}.json`).then(r => r.json()))
+      );
+      archivos.sort((a, b) => a.orden - b.orden);
+      // Decap CMS guarda listas de imágenes como [{src: '...'}]. Las aplanamos a [string]
+      // para que el resto del código (renderProducto, popularHero, abrirPreview) no cambie.
+      const aplanar = arr => (arr || []).map(x => typeof x === 'string' ? x : x.src).filter(Boolean);
+      const obj = {};
+      for (const cat of archivos) {
+        const productos = cat.productos.map(p => {
+          const out = { ...p };
+          if (Array.isArray(p.previews))        out.previews        = aplanar(p.previews);
+          if (Array.isArray(p.thumbnailStack))  out.thumbnailStack  = aplanar(p.thumbnailStack);
+          return out;
+        });
+        obj[cat.id] = {
+          icono: cat.icono,
+          titulo: cat.titulo,
+          subtitulo: cat.subtitulo,
+          productos
+        };
       }
-    };
+      categorias = obj;
+    }
 
     let categoriaActual = null;
 
@@ -2106,7 +1975,8 @@ tableros: {
       }
     });
 
-    window.addEventListener('load', function () {
+    window.addEventListener('load', async function () {
+      await cargarCategorias();
       popularHero();
       const hash = location.hash.slice(1);
       if (hash && categorias[hash]) abrirModal(hash, false);
@@ -2440,6 +2310,17 @@ tableros: {
     document.getElementById('formTestimonio').addEventListener('submit', function(e) {
       enviarFormularioFormspree(e, this, 'formContenido', 'formOk', 'btnEnviar', 'Enviar testimonio →');
     });
+
+    // Netlify Identity: redirige a /admin/ después del login (invitación por email).
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => {
+        if (!user) {
+          window.netlifyIdentity.on('login', () => {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    }
   </script>
 </body>
 </html>

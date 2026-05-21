@@ -1,0 +1,141 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "materiales"
+public_folder: "/materiales"
+
+publish_mode: simple
+locale: "es"
+site_url: https://profvanessa.cl
+display_url: https://profvanessa.cl
+
+# Campos de un producto. Se reutilizan en cada categoría con el ancla *producto.
+producto_fields: &producto_fields
+  - { name: nombre, label: "Nombre", widget: string, hint: "Ej: 'Acto 1: Reparto equitativo de entradas'" }
+  - { name: descripcion, label: "Descripción corta", widget: string, hint: "Línea bajo el nombre. Ej: '4°-5° Básico · 25 páginas · Matemática'" }
+  - { name: detalle, label: "Detalle largo", widget: text, hint: "Texto que aparece en el modal al expandir el producto." }
+  - { name: precio, label: "Precio (CLP)", widget: string, required: false, hint: "Usa punto como separador de miles: 3.990. Dejar vacío si es gratis." }
+  - { name: link, label: "Link de pago (Hotmart)", widget: string, required: false }
+  - { name: thumbnail, label: "Imagen de portada", widget: image, required: false, hint: "Imagen principal del producto. Dejar vacío si es un PACK (usa el campo de abajo)." }
+  - { name: previews, label: "Vistas previas (la última se difumina con candado)", widget: list, required: false, summary: "{{fields.src}}", field: { name: src, label: "Imagen", widget: image } }
+  - { name: videoYoutube, label: "Video YouTube (opcional)", widget: string, required: false, hint: "URL completa del video. Ej: https://www.youtube.com/watch?v=..." }
+  - { name: formato, label: "Formato", widget: select, options: ["", "slide"], default: "", required: false, hint: "Marca 'slide' SOLO si es presentación Canva/PowerPoint (relación 16:9)." }
+  - { name: destacado, label: "¿Es un PACK destacado?", widget: boolean, required: false, default: false, hint: "Marcar solo si es un pack con varios productos agrupados." }
+  - { name: thumbnailStack, label: "Portadas del PACK (solo si es pack)", widget: list, required: false, summary: "{{fields.src}}", field: { name: src, label: "Imagen", widget: image }, hint: "Subir las portadas de cada PDF del pack (se muestran apiladas)." }
+  - { name: precioOriginal, label: "Precio sin descuento del PACK", widget: string, required: false }
+  - { name: etiquetaDestacado, label: "Etiqueta del PACK", widget: string, required: false, hint: "Ej: 'PACK · AHORRA $3.980'" }
+
+collections:
+  - name: "categorias"
+    label: "Categorías"
+    label_singular: "Categoría"
+    description: "Edita los productos dentro de cada categoría del sitio."
+    files:
+      - name: "guias"
+        label: "📝 Guías de tareas"
+        file: "_data/categorias/guias.json"
+        format: "json"
+        fields:
+          - { name: id, widget: hidden, default: "guias" }
+          - { name: orden, widget: hidden, default: 1 }
+          - { name: icono, widget: hidden, default: "📝" }
+          - { name: titulo, widget: hidden, default: "Guías de tareas" }
+          - { name: subtitulo, widget: hidden, default: "Material de trabajo complementario para tus estudiantes" }
+          - name: productos
+            label: "Productos"
+            label_singular: "Producto"
+            widget: list
+            collapsed: true
+            summary: "{{fields.nombre}} — ${{fields.precio}}"
+            fields: *producto_fields
+
+      - name: "presentaciones"
+        label: "🎨 Presentaciones"
+        file: "_data/categorias/presentaciones.json"
+        format: "json"
+        fields:
+          - { name: id, widget: hidden, default: "presentaciones" }
+          - { name: orden, widget: hidden, default: 2 }
+          - { name: icono, widget: hidden, default: "🎨" }
+          - { name: titulo, widget: hidden, default: "Presentaciones" }
+          - { name: subtitulo, widget: hidden, default: "Diapositivas en Canva y PowerPoint listas para usar" }
+          - name: productos
+            label: "Productos"
+            label_singular: "Producto"
+            widget: list
+            collapsed: true
+            summary: "{{fields.nombre}} — ${{fields.precio}}"
+            fields: *producto_fields
+
+      - name: "pruebas"
+        label: "📋 Pruebas y evaluaciones"
+        file: "_data/categorias/pruebas.json"
+        format: "json"
+        fields:
+          - { name: id, widget: hidden, default: "pruebas" }
+          - { name: orden, widget: hidden, default: 3 }
+          - { name: icono, widget: hidden, default: "📋" }
+          - { name: titulo, widget: hidden, default: "Pruebas y evaluaciones" }
+          - { name: subtitulo, widget: hidden, default: "Instrumentos de evaluación con rúbricas incluidas" }
+          - name: productos
+            label: "Productos"
+            label_singular: "Producto"
+            widget: list
+            collapsed: true
+            summary: "{{fields.nombre}} — ${{fields.precio}}"
+            fields: *producto_fields
+
+      - name: "tableros"
+        label: "🗂️ Material didáctico"
+        file: "_data/categorias/tableros.json"
+        format: "json"
+        fields:
+          - { name: id, widget: hidden, default: "tableros" }
+          - { name: orden, widget: hidden, default: 4 }
+          - { name: icono, widget: hidden, default: "🗂️" }
+          - { name: titulo, widget: hidden, default: "Material didáctico" }
+          - { name: subtitulo, widget: hidden, default: "Recursos imprimibles y manipulables para un aprendizaje activo y memorable" }
+          - name: productos
+            label: "Productos"
+            label_singular: "Producto"
+            widget: list
+            collapsed: true
+            summary: "{{fields.nombre}} — ${{fields.precio}}"
+            fields: *producto_fields
+
+      - name: "fichas"
+        label: "📄 Fichas de trabajo"
+        file: "_data/categorias/fichas.json"
+        format: "json"
+        fields:
+          - { name: id, widget: hidden, default: "fichas" }
+          - { name: orden, widget: hidden, default: 5 }
+          - { name: icono, widget: hidden, default: "📄" }
+          - { name: titulo, widget: hidden, default: "Fichas de trabajo" }
+          - { name: subtitulo, widget: hidden, default: "Material imprimible de Matemática, Lenguaje y más asignaturas, listo para usar en el aula o en casa" }
+          - name: productos
+            label: "Productos"
+            label_singular: "Producto"
+            widget: list
+            collapsed: true
+            summary: "{{fields.nombre}} — ${{fields.precio}}"
+            fields: *producto_fields
+
+      - name: "flashcards"
+        label: "🃏 Flashcards y pósters"
+        file: "_data/categorias/flashcards.json"
+        format: "json"
+        fields:
+          - { name: id, widget: hidden, default: "flashcards" }
+          - { name: orden, widget: hidden, default: 6 }
+          - { name: icono, widget: hidden, default: "🃏" }
+          - { name: titulo, widget: hidden, default: "Flashcards y pósters" }
+          - { name: subtitulo, widget: hidden, default: "Material visual imprimible para reforzar contenidos" }
+          - name: productos
+            label: "Productos"
+            label_singular: "Producto"
+            widget: list
+            collapsed: true
+            summary: "{{fields.nombre}} — ${{fields.precio}}"
+            fields: *producto_fields

@@ -1,0 +1,123 @@
+{
+  "id": "presentaciones",
+  "orden": 2,
+  "icono": "🎨",
+  "titulo": "Presentaciones",
+  "subtitulo": "Diapositivas en Canva y PowerPoint listas para usar",
+  "productos": [
+    {
+      "nombre": "Pack 3 Actos · Circo de Divisiones",
+      "descripcion": "4°-5° Básico · 3 PDFs interactivos · ~67 páginas",
+      "detalle": "Los 3 actos del Circo de Divisiones a precio especial. Progresión pedagógica completa con personajes: Mago Numerín (reparto), Comilla (algoritmo formal) y Restaldo el malabarista (división con resto). Incluye 49 ejercicios de práctica entre los 3 actos.",
+      "precio": "13.990",
+      "precioOriginal": "17.970",
+      "etiquetaDestacado": "PACK · AHORRA $3.980",
+      "destacado": true,
+      "formato": "slide",
+      "thumbnailStack": [
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-1-portada.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-2-portada.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-3-portada.png"
+        }
+      ],
+      "previews": [
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-1-prev2.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-1-prev3.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-2-prev2.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-2-prev3.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-3-prev2.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-3-prev3.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-3-prev4.png"
+        }
+      ],
+      "link": "https://pay.hotmart.com/Y105869485C"
+    },
+    {
+      "nombre": "Acto 1: Reparto equitativo de entradas",
+      "descripcion": "4°-5° Básico · 25 páginas · Matemática",
+      "detalle": "Divisiones exactas con estrategias de reparto uno a uno y secuencia del divisor. Incluye ruta de aprendizaje, objetivo MINEDUC y 14 ejercicios de práctica con el Mago Numerín.",
+      "precio": "5.990",
+      "formato": "slide",
+      "thumbnail": "materiales/presentaciones/circo-divisiones/acto-1-portada.png",
+      "previews": [
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-1-prev1.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-1-prev2.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-1-prev3.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-1-prev4.png"
+        }
+      ],
+      "link": "https://pay.hotmart.com/V105868970Y"
+    },
+    {
+      "nombre": "Acto 2: Tortazos del algoritmo tradicional",
+      "descripcion": "4°-5° Básico · 22 páginas · Matemática",
+      "detalle": "Algoritmo formal de la división por una cifra. Presenta a Comilla (la coma/apóstrofe) y resuelve paso a paso 20÷5 y 96÷3. Incluye 10 ejercicios de práctica.",
+      "precio": "5.990",
+      "formato": "slide",
+      "thumbnail": "materiales/presentaciones/circo-divisiones/acto-2-portada.png",
+      "previews": [
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-2-prev1.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-2-prev2.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-2-prev3.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-2-prev4.png"
+        }
+      ],
+      "link": "https://pay.hotmart.com/B105869409J"
+    },
+    {
+      "nombre": "Acto 3: ¿Y ahora qué hago con el resto?",
+      "descripcion": "4°-5° Básico · 20 páginas · Matemática",
+      "detalle": "División con resto. Restaldo el malabarista enseña a interpretar el resto con la analogía de los globos. Resuelve 15÷2 y 234÷5 paso a paso. Incluye 25 ejercicios de práctica.",
+      "precio": "5.990",
+      "formato": "slide",
+      "thumbnail": "materiales/presentaciones/circo-divisiones/acto-3-portada.png",
+      "previews": [
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-3-prev1.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-3-prev2.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-3-prev3.png"
+        },
+        {
+          "src": "materiales/presentaciones/circo-divisiones/acto-3-prev4.png"
+        }
+      ],
+      "link": "https://pay.hotmart.com/G105869448B"
+    }
+  ]
+}

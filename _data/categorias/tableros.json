@@ -1,0 +1,46 @@
+{
+  "id": "tableros",
+  "orden": 4,
+  "icono": "🗂️",
+  "titulo": "Material didáctico",
+  "subtitulo": "Recursos imprimibles y manipulables para un aprendizaje activo y memorable",
+  "productos": [
+    {
+      "nombre": "Brazaletes educativos · Tablas de multiplicar",
+      "descripcion": "Todos los niveles · PDF imprimible · Matemática",
+      "detalle": "Brazaletes imprimibles con los múltiplos del 2 al 12. El estudiante los recorta, arma y usa como pulsera para repasar las tablas en cualquier momento. Incluye guía de uso.",
+      "precio": "1.990",
+      "thumbnail": "materiales/tableros/brazaletes-multiplicar/brazaletes-portada.png",
+      "previews": [
+        {
+          "src": "materiales/tableros/brazaletes-multiplicar/brazaletes-portada.png"
+        },
+        {
+          "src": "materiales/tableros/brazaletes-multiplicar/brazaletes-prev2.png"
+        },
+        {
+          "src": "materiales/tableros/brazaletes-multiplicar/brazaletes-prev3.png"
+        }
+      ],
+      "link": "https://pay.hotmart.com/A105880211V",
+      "videoYoutube": "https://www.youtube.com/watch?v=j3BK76Mp7ds"
+    },
+    {
+      "nombre": "Tablero de Juego · Potencias",
+      "descripcion": "8° Básico · PDF imprimible · Matemática",
+      "detalle": "Los estudiantes avanzan por el tablero respondiendo ejercicios de potencias. Para 2 a 4 jugadores, ideal para trabajo en grupos y cierre de unidad.",
+      "precio": "1.990",
+      "thumbnail": "materiales/tableros/potencias/tablero-potencias-portada.png",
+      "previews": [
+        {
+          "src": "materiales/tableros/potencias/tablero-potencias-preview.png"
+        },
+        {
+          "src": "materiales/tableros/potencias/tablero-potencias-blur.png"
+        }
+      ],
+      "link": "https://pay.hotmart.com/J105867235Y",
+      "videoYoutube": "https://www.youtube.com/watch?v=tZOubEPAyao"
+    }
+  ]
+}
